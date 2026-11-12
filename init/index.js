@@ -1,9 +1,12 @@
+if(process.env.NODE_ENV != "production"){
+    require('dotenv').config({path: "../.env"});
+}
 const express = require("express");
 const mongoose = require("mongoose");
 const initData = require("./data.js");
 const Listing = require("../models/listing.js");
 
-let MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
+let dbUrl = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/wonderlust";
 
 main().then((req, res)=>{
     console.log("connection succesfull");
@@ -12,7 +15,7 @@ main().then((req, res)=>{
 })
 
 async function main() {
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(dbUrl);
 }
 
 const initDB = async ()=>{
